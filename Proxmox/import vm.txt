@@ -1,0 +1,12 @@
+There's no way to attach existing virtual hard drives via the gui - as far as I know
+
+My advice would be
+
+1. create a VM with and ID of XXX which has the same specs as the original virtual machine (or as close as you can remember) except for the virtual hard drive which just needs to be on the same storage and using the same emulation (IDE/Virtio/SCSI etc) - size does not matter just make it a few gigs.
+2. Open a shell on the proxmox host and edit the config file of your new VM - i.e nano /etc/pve/qemu-server/XXX.conf
+3. Change the line which defines the VM hard drive to match the name of the virtual disk you wish to use
+virtio0: antiguo-archivos:vm-101-disk-1,size=50G
+4. boot VM
+5. (optional) migrate disk to production storage
+
+Good luck
