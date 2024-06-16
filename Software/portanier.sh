@@ -36,7 +36,9 @@ sudo docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v portainer_data:/data portainer/portainer-ce:latest
 
+# Restart the Portainer container
+sudo docker restart portainer
+
 # Output installation details
 echo "Docker and Portainer CE installation complete."
 echo "Portainer CE is running on port 9443."
-echo "Please restart Portainer using sudo docker restart [container id] - (sudo docker ps)" 
