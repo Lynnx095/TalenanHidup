@@ -18,7 +18,7 @@ services:
       MYSQL_USER: nextcloud
 
   app:
-    image: nextcloud
+    image: linuxserver/nextcloud:27.1.4-ls289
     ports:
       - 7080:80
       - 7443:443
