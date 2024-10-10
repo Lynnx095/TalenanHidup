@@ -65,6 +65,28 @@ To simplify the installation process, you can use an automated script:
 
 ### 4. Setup Certificate for the Domain Using `legoagh`
 
+#### Automated Setup:
+1. **Download the script:**
+
+```bash
+mkdir /opt/lego
+curl -s https://raw.githubusercontent.com/ameshkov/legoagh/master/lego.sh --output lego.sh
+chmod +x lego.sh
+```
+
+If you're using CloudFlare, you need to [create an API](https://developers.cloudflare.com/api/tokens/create) token first.
+
+2. **Run the script:**
+
+```bash
+DOMAIN_NAME="example.org" \
+    EMAIL="you@email" \
+    DNS_PROVIDER="cloudflare" \
+    CLOUDFLARE_DNS_API_TOKEN="yourapitoken" \
+    ./lego.sh
+```
+
+#### Manual Setup:
 Follow these steps to obtain and configure an SSL/TLS certificate using the `legoagh` script:
 
 1. **Download the `legoagh` Script:**
