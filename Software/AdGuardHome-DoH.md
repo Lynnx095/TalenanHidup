@@ -74,7 +74,7 @@ curl -s https://raw.githubusercontent.com/ameshkov/legoagh/master/lego.sh --outp
 chmod +x lego.sh
 ```
 
-If you're using CloudFlare, you need to [create an API](https://developers.cloudflare.com/api/tokens/create) token first.
+If you're using CloudFlare, you need to [create an API](https://dash.cloudflare.com/profile/api-tokens) token first.
 
 2. **Run the script:**
 
