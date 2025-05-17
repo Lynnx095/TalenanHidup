@@ -95,7 +95,7 @@ Follow these steps to obtain and configure an SSL/TLS certificate using the `leg
    ```bash
    curl -O https://raw.githubusercontent.com/Lynnx095/TalenanHidup/refs/heads/main/Software/legoagh.sh
    ```
-   Or with `curl`:
+   Or with Manual Renewal (180d):
    ```bash
    curl -O https://raw.githubusercontent.com/ameshkov/legoagh/master/legoagh.sh
    ```
