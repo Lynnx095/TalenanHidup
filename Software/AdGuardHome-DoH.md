@@ -91,15 +91,15 @@ Follow these steps to obtain and configure an SSL/TLS certificate using the `leg
 
 1. **Download the `legoagh` Script:**
 
-   Use `wget` or `curl` to download the script to your server:
+   Automatic Renewal (Default)
    ```bash
-   wget https://raw.githubusercontent.com/ameshkov/legoagh/master/legoagh.sh
+   curl -O https://raw.githubusercontent.com/Lynnx095/TalenanHidup/refs/heads/main/Software/legoagh.sh
    ```
    Or with `curl`:
    ```bash
    curl -O https://raw.githubusercontent.com/ameshkov/legoagh/master/legoagh.sh
    ```
-
+   
 2. **Make the Script Executable:**
 
    Change the permissions to make the script executable:
