@@ -70,7 +70,7 @@ To simplify the installation process, you can use an automated script:
 
 ```bash
 mkdir /opt/lego
-curl -s https://raw.githubusercontent.com/ameshkov/legoagh/master/lego.sh --output lego.sh
+curl -s https://raw.githubusercontent.com/Lynnx095/TalenanHidup/refs/heads/main/Software/legoagh --output lego.sh
 chmod +x lego.sh
 ```
 
