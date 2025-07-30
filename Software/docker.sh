@@ -1,56 +1,63 @@
 #!/bin/bash
 
-# Install Docker
-echo "Installing Docker..."
+set -e
 
-# Update the apt package index and install packages to allow apt to use a repository over HTTPS
-apt-get update
-apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
+echo "--- Preparing for installation by removing older versions ---"
+# Uninstall any conflicting packages.
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
+  if dpkg -l | grep -q $pkg; then
+    echo "Removing conflicting package: $pkg"
+    sudo apt-get remove -y $pkg
+  fi
+done
 
-# Add Docker's official GPG key
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+# --- Step 1: Set up Docker's APT repository ---
+echo "--- Step 1: Setting up Docker's repository ---"
 
-# Set up the stable Docker repository
+# Update package lists and install dependencies
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl
+
+# Add Docker’s official GPG key
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources
 echo \
-  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# Install Docker Engine
-apt-get update
-apt-get install -y docker-ce docker-ce-cli containerd.io
+# --- Step 2: Install Docker packages ---
+echo "--- Step 2: Installing Docker Engine and Docker Compose ---"
 
-# Add your current user to the docker group
-usermod -aG docker $USER
+# Update package lists again to include the new Docker repo
+sudo apt-get update
+
+# Install the latest versions
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# --- Step 3: Post-installation configuration ---
+echo "--- Step 3: Configuring user and services ---"
+
+# Add your current user to the 'docker' group to run Docker without sudo
+sudo usermod -aG docker $USER
 
 # Enable Docker service to start on boot
-systemctl enable docker
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
 
-# Display Docker version and info
+# --- Step 4: Verify the installation ---
+echo "--- Step 4: Verifying installation ---"
+
+echo "Docker version:"
 docker --version
-docker info
 
-# Install Docker Compose
-echo "Installing Docker Compose..."
+echo "Docker Compose version:"
+# Note: The command is 'docker compose' (with a space), not 'docker-compose'
+docker compose version
 
-# Set the version of Docker Compose to install
-DOCKER_COMPOSE_VERSION="1.29.2"  # Update this to the latest stable version if needed
-
-# Download Docker Compose binary
-curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" \
-    -o /usr/local/bin/docker-compose
-
-# Apply executable permissions to the Docker Compose binary
-chmod +x /usr/local/bin/docker-compose
-
-# Create symbolic link to allow Docker Compose to be run from anywhere
-ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-
-# Verify Docker Compose installation
-docker-compose --version
-
-echo "Docker and Docker Compose installation completed successfully."
+echo "✅ Docker and Docker Compose installation completed."
+echo "💡 IMPORTANT: You must log out and log back in for the user group changes to take effect."
+echo "After logging back in, you can run 'docker run hello-world' to test your installation."
