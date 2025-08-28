@@ -63,16 +63,11 @@ run_script() {
     local app_name="$3"
 
     print_color "blue" "Downloading script for $app_name..."
-    if ! curl -L -o "$filename" "$url"; then
-        print_color "red" "Failed to download the script from $url."
-        return 1
-    fi
-
-    # Check if the downloaded file is an HTML page (like a 404 error)
-    if grep -q "<html>" "$filename"; then
-        print_color "red" "Error: Downloaded file appears to be an HTML error page (like 404 Not Found), not a script. Please check the URL."
-        rm "$filename"
-        return 1
+    if ! curl -fL -o "$filename" "$url"; then
+        status=$?
+        rm -f "$filename"
+        print_color "red" "Failed to download $url (curl exit status $status)."
+        return $status
     fi
 
     print_color "blue" "Setting execute permissions for $filename..."
