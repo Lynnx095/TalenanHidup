@@ -140,5 +140,5 @@ update-grub
 
 If there's error related to x-gpu, delete x-gpu line one the vm config using this command below
 ```
-
 nano /etc/pve/qemu-server/<vm-id>.conf
+```
