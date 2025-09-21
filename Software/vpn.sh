@@ -18,3 +18,6 @@ warp-cli registration new
 # Turning On VPN
 
 warp-cli connect
+
+#Test Warp Connection
+curl https://www.cloudflare.com/cdn-cgi/trace/
