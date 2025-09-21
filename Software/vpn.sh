@@ -13,7 +13,8 @@ sudo apt-get update
 sudo apt-get install cloudflare-warp -y
 
 # Registering Device
-warp-cli register
+warp-cli registration new
 
 # Turning On VPN
+
 warp-cli connect
